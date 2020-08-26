@@ -1,0 +1,25 @@
+version: '2'
+services:
+  mongodb:
+    image: mongo:3
+    volumes:
+      - /TRS/APP/mongo_es/mongo_data:/data/db
+    ports:
+      - 27017:27017
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.8.2
+    volumes:
+      - /TRS/APP/mongo_es/esdata:/usr/share/elasticsearch/data
+#      - /TRS/APP/nongo_es/es_config/elasticsearch.yml
+    environment:
+      - http.host=0.0.0.0
+      - transport.host=localhost
+      - network.host=0.0.0.0
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+    ports :
+      - 9201:9200
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
